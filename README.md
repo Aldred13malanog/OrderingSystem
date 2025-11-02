@@ -16,7 +16,6 @@ How to Run:
 3. Run the program (`Shift + F6` or click Run Project).
 4. Follow the on-screen input dialogs.
 
-Author:
-  Aldred
-  Version: Beta
-  Last Updated: 11-1-25
+Author:Aldred
+Version: Beta
+Last Updated: 11-1-25
