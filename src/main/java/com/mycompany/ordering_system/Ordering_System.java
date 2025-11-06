@@ -6,7 +6,7 @@ package com.mycompany.ordering_system;
 import javax.swing.*;
 /**
  *
- * @author User
+ * @author Aldred
  */
 public class Ordering_System {
 
@@ -65,23 +65,13 @@ public class Ordering_System {
         int drinksChoice;
         
         boolean isRegistrationRunning = true;
-        int registration;
-        String fullNameInp = "";
-        String userNameInp = "";
-        String passwordInp = "";
-        String confirmPasswordInp = "";
-        int contactInp = 0;
-        String addressInp = "";
-        
-        boolean isLoginRunning = true;
-        String loginUserInp = "";
-        String loginPassInp = "";
+        boolean isLoginRunning = false;
         
         int i = 0;
         String fullNameList[] = new String[10];
         String userNameList[] = new String[10];
         String passwordList[] = new String[10];
-        int contactNumberList[] = new int[10];
+        String contactNumberList[] = new String[10];
         String addressList[] = new String[10];
         
         int in = 0;
@@ -97,7 +87,14 @@ public class Ordering_System {
             //REGISTRATION
             while (isRegistrationRunning) {
                 //CREATE ACC?
-                registration = JOptionPane.showConfirmDialog(null, "Create Account?",
+                String fullNameInp = "";
+                String userNameInp = "";
+                String passwordInp = "";
+                String confirmPasswordInp = "";
+                String contactInp = "";
+                String addressInp = "";
+                
+                int registration = JOptionPane.showConfirmDialog(null, "Create Account?",
                     "Registration", JOptionPane.YES_NO_OPTION);
 
                 if (registration == -1) {
@@ -113,88 +110,34 @@ public class Ordering_System {
 
                 if (registration != JOptionPane.YES_NO_OPTION) {
                     isRegistrationRunning = false;
+                    isLoginRunning = true;
                     break;
                 }
 
                 //FULLNAME INPUT
                 do {
-                    fullNameInp = JOptionPane.showInputDialog("Enter your Full Name");
-                    if (fullNameInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (fullNameInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Full name cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
+                    fullNameInp = JOptionPane.showInputDialog(null, "Enter your Full Name", "Registration", JOptionPane.QUESTION_MESSAGE);
+                    checkInput(fullNameInp, "Full Name");
                     fullNameList[i] = fullNameInp;
                 } while (fullNameInp == null || fullNameInp.trim().isEmpty());
 
                 //USERNAME INPUT
                 do {
                     userNameInp = JOptionPane.showInputDialog("Create Username");
-                    if (userNameInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (userNameInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Username cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
+                    checkInput(userNameInp, "Username");
                     userNameList[i] = userNameInp;
                 } while (userNameInp == null || userNameInp.trim().isEmpty());
 
                 //PASS INPUT
                 do {
-                    passwordInp = JOptionPane.showInputDialog("Create Password");
-                    if (passwordInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (passwordInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Password cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                    }
+                    passwordInp = JOptionPane.showInputDialog(null,"Create Password", "Registration", JOptionPane.QUESTION_MESSAGE);
+                    checkInput(passwordInp, "Password");
                 } while (passwordInp == null || passwordInp.trim().isEmpty());
 
                 //CONFIRM PASS INPUT
                 do {
-                    confirmPasswordInp = JOptionPane.showInputDialog("Confirm Password");
-                    if (confirmPasswordInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (confirmPasswordInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Confirm Password cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
+                    confirmPasswordInp = JOptionPane.showInputDialog(null, "Confirm Password", "Registration", JOptionPane.QUESTION_MESSAGE);
+                    checkInput(confirmPasswordInp, "Confirm Password");
                     if (!passwordInp.equals(confirmPasswordInp)) {
                         JOptionPane.showMessageDialog(null, "Password does not match!"
                                 ,"Invalid Password", JOptionPane.WARNING_MESSAGE);
@@ -204,35 +147,22 @@ public class Ordering_System {
     //                        
                 } while (confirmPasswordInp == null || confirmPasswordInp.trim().isEmpty() || !passwordInp.equals(confirmPasswordInp));
 
-    //                    CONTACT INPUT
-    //                    do {
-    //                        contactInp = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter your Contact Number"));
-    //                        if (contactInp) {
-    //                            JOptionPane.showMessageDialog(null, "Confirm Password cannot be empty"
-    //                                ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-    //                        }
-    //                    } while (confirmPasswordInp == null || confirmPasswordInp.trim().isEmpty());
+//              CONTACT INPUT
+                do {
+                    contactInp = JOptionPane.showInputDialog(null,"Enter your Contact Number", "Registration", JOptionPane.QUESTION_MESSAGE);
+                    checkInput(contactInp, "Contact");
+                    contactNumberList[i] = contactInp;                    
+                } while (contactInp == null || contactInp.trim().isEmpty());
 
                 // ADDRESS INPUT
                 do {
-                    addressInp = JOptionPane.showInputDialog("Enter your Address");
-                    if (addressInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (addressInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Address cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
+                    addressInp = JOptionPane.showInputDialog(null, "Enter your Address", "Registration", JOptionPane.QUESTION_MESSAGE);
+                    checkInput(addressInp, "Address");
                     addressList[i] = addressInp;
-                } while (addressInp == null || addressInp.trim().isEmpty());       
+                } while (addressInp == null || addressInp.trim().isEmpty());
+                
+                JOptionPane.showMessageDialog(null, "Registered Successfully!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+                isLoginRunning = true;
                 isRegistrationRunning = false;
             }
             
@@ -240,15 +170,20 @@ public class Ordering_System {
             //LOGIN
             while (isLoginRunning) {
                 // USERNAME INPUT
+                String loginUserInp = "";
+                String loginPassInp = "";
+                
                 do {
                     loginUserInp = JOptionPane.showInputDialog("Enter Username:");
 
                     if (loginUserInp == null) {
                         int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
+                            "Don't have an account?", "Create?", JOptionPane.YES_NO_OPTION);
                         if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
+//                            JOptionPane.showMessageDialog(null, "Program Terminated");
+                            isLoginRunning = false;
+                            isRegistrationRunning = true;
+                            break;
                         } else {
                             continue;
                         }
@@ -262,39 +197,31 @@ public class Ordering_System {
                     if (!loginUserInp.equals(userNameList[i])) {
                         JOptionPane.showMessageDialog(null, "Account doesn\'t exist",
                             "Invalid Account", JOptionPane.INFORMATION_MESSAGE);
+                        isLoginRunning = false;
+                        isRegistrationRunning = true;
+                        break;
                     }
 
                 } while (loginUserInp == null || loginUserInp.trim().isEmpty() || !loginUserInp.equals(userNameList[i]));
 
+                if (!isLoginRunning) {
+                    break;
+                }
                 // PASSWORD INPUT
                 do {
                     loginPassInp = JOptionPane.showInputDialog("Enter Password:");
-
-                    if (loginPassInp == null) {
-                        int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_NO_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Program Terminated");
-                            return;
-                        } else {
-                            continue;
-                        }
-                    }
-                    if (loginPassInp.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Username cannot be empty"
-                            ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
+                    checkInput(loginPassInp, "Password");
                     if (!loginPassInp.equals(passwordList[i])) {
                         JOptionPane.showMessageDialog(null, "Incorrect Password! Please try again.",
                             "Invalid Password", JOptionPane.ERROR_MESSAGE);
-                        continue;
                     }
-                    JOptionPane.showMessageDialog(null, "Login Successfully!", "Success!",
-                        JOptionPane.INFORMATION_MESSAGE);
 
                 } while (loginPassInp == null || loginPassInp.trim().isEmpty() || !loginPassInp.equals(passwordList[i]));
+                
+                JOptionPane.showMessageDialog(null, "Login Successfully!", "Success!",
+                    JOptionPane.INFORMATION_MESSAGE);
                 isLoginRunning = false;
+                mainMenu = true;
             }
             
             String mainMessage = "Welcome " + userNameList[i] + "!\n" 
@@ -378,47 +305,23 @@ public class Ordering_System {
                                 switch (dessertChoice) {
                                     case 1:
                                         items[in] = dessertItems[dessertChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = dessertPrices[dessertChoice - 1];
-                                        
                                         in++;
-
                                         JOptionPane.showMessageDialog(null, "Item Added Successfully!",
                                             "Add item", JOptionPane.INFORMATION_MESSAGE);
                                         break;
                                     case 2:
                                         items[in] = dessertItems[dessertChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = dessertPrices[dessertChoice - 1];
                                         in++;
-
                                         JOptionPane.showMessageDialog(null, "Item Added Successfully!",
                                             "Add item", JOptionPane.INFORMATION_MESSAGE);
                                         break;    
                                     case 3:
                                         items[in] = dessertItems[dessertChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = dessertPrices[dessertChoice - 1];
                                         in++;
 
@@ -427,14 +330,7 @@ public class Ordering_System {
                                         break;
                                     case 4:
                                         items[in] = dessertItems[dessertChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = dessertPrices[dessertChoice - 1];
                                         in++;
 
@@ -443,14 +339,7 @@ public class Ordering_System {
                                         break;
                                     case 5:
                                         items[in] = dessertItems[dessertChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = dessertPrices[dessertChoice - 1];
                                         in++;
 
@@ -481,14 +370,7 @@ public class Ordering_System {
                                 switch (snacksChoice) {
                                     case 1:
                                         items[in] = snacksItems[snacksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = snacksPrices[snacksChoice - 1];
                                         in++;
 
@@ -497,14 +379,7 @@ public class Ordering_System {
                                         break;
                                     case 2:
                                         items[in] = snacksItems[snacksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = snacksPrices[snacksChoice - 1];
                                         in++;
 
@@ -513,14 +388,7 @@ public class Ordering_System {
                                         break;    
                                     case 3:
                                         items[in] = snacksItems[snacksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = snacksPrices[snacksChoice - 1];
                                         in++;
 
@@ -529,14 +397,7 @@ public class Ordering_System {
                                         break;
                                     case 4:
                                         items[in] = snacksItems[snacksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = snacksPrices[snacksChoice - 1];
                                         in++;
 
@@ -545,14 +406,7 @@ public class Ordering_System {
                                         break;
                                     case 5:
                                         items[in] = snacksItems[snacksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = snacksPrices[snacksChoice - 1];
                                         in++;
 
@@ -583,14 +437,7 @@ public class Ordering_System {
                                 switch (drinksChoice) {
                                     case 1:
                                         items[in] = drinksItems[drinksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = drinksPrices[drinksChoice - 1];
                                         in++;
 
@@ -599,14 +446,7 @@ public class Ordering_System {
                                         break;
                                     case 2:
                                         items[in] = drinksItems[drinksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = drinksPrices[drinksChoice - 1];
                                         in++;
 
@@ -615,14 +455,7 @@ public class Ordering_System {
                                         break;    
                                     case 3:
                                         items[in] = drinksItems[drinksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = drinksPrices[drinksChoice - 1];
                                         in++;
 
@@ -631,14 +464,7 @@ public class Ordering_System {
                                         break;
                                     case 4:
                                         items[in] = drinksItems[drinksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = drinksPrices[drinksChoice - 1];
                                         in++;
 
@@ -647,14 +473,7 @@ public class Ordering_System {
                                         break;
                                     case 5:
                                         items[in] = drinksItems[drinksChoice - 1];
-                                        try {
-                                            quantity[in] = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-                                        } catch (NumberFormatException e) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "Quantity cannot be empty!",
-                                                    "Error", JOptionPane.ERROR_MESSAGE);
-                                            continue;
-                                        }
+                                        quantity[in] = checkQuantityInput();
                                         prices[in] = drinksPrices[drinksChoice - 1];
                                         in++;
 
@@ -709,7 +528,7 @@ public class Ordering_System {
                                     quantity[ind] = Integer.parseInt(JOptionPane.showInputDialog("Enter New Quantity:"));
                                 } catch (NumberFormatException e) {
                                     JOptionPane.showMessageDialog(null,
-                                            "Quantity cannot be empty!",
+                                            "Invalid Input!",
                                             "Error", JOptionPane.ERROR_MESSAGE);
                                     continue;
                                 }
@@ -719,11 +538,7 @@ public class Ordering_System {
                                         "Update",JOptionPane.INFORMATION_MESSAGE);
                                 break;
                                 
-                            }
-                            JOptionPane.showMessageDialog(null, " Item Not Found!",
-                               "Item", JOptionPane.INFORMATION_MESSAGE);
-                            break;
-                            
+                            }            
                         }
                         break;
                     case 4:
@@ -741,7 +556,7 @@ public class Ordering_System {
                                quantity[i] = 0;
                                JOptionPane.showMessageDialog(null,
                                        "Item deleted Successfully!",
-                                       "Delete", JOptionPane.INFORMATION_MESSAGE);
+                                       "Deleted", JOptionPane.INFORMATION_MESSAGE);
                                break;
                             }
                         }
@@ -781,12 +596,15 @@ public class Ordering_System {
                             case 1:
                                 paymentType = "Cash on Delivery(COD)";
                                 JOptionPane.showMessageDialog(null,
-                                        "Payment Type: " + paymentType + "\n"
+                                        "Name: " + fullNameList[i] + "\n"
+                                        +"Contact#: " + contactNumberList[i] + "\n"
+                                        +"Delivery Address: " + addressList[i] + "\n"
+                                        +"Payment Type: " + paymentType + "\n"
                                         +"Total Amount: " + totalAmount + "\n"
                                         +"Orders:\n"
                                         + "\t" + viewCartMessage
                                         + "\t" + orders,
-                                        "Receipt", JOptionPane.INFORMATION_MESSAGE);
+                                        "Order Details", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                             case 2:
                                 paymentType = "Gcash";
@@ -808,12 +626,15 @@ public class Ordering_System {
                                 }
                                 JOptionPane.showMessageDialog(null, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);                                
                                 JOptionPane.showMessageDialog(null,
-                                        "Payment Type: " + paymentType + "\n"
-                                        +"Total Amount: " + totalAmount + "\n"
+                                        "Name: " + fullNameList[i]+ "\n"
+                                        +"Contact#: " + contactNumberList[i]+ "\n"
+                                        +"Delivery Address: " + addressList[i]+ "\n"
+                                        +"Payment Type: " + paymentType + "\n"
+                                        +"Total Amount: Php" + totalAmount + "\n"
                                         +"Orders:\n"
                                         + "\t" + viewCartMessage
                                         + "\t" + orders,
-                                        "Receipt", JOptionPane.INFORMATION_MESSAGE);
+                                        "Order Details", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                             case 3: 
                                 break;
@@ -828,7 +649,6 @@ public class Ordering_System {
                         if (backLogin == JOptionPane.YES_NO_OPTION) {
                             mainMenu = false;
                             isRegistrationRunning = true;
-                            isLoginRunning = true;
                             break;
                         }
                         break;
@@ -843,5 +663,44 @@ public class Ordering_System {
             
 
         }
+    }
+    static void checkInput(String input, String message) {
+        if (input == null) {
+            int confirm = JOptionPane.showConfirmDialog(null,
+                "Are you sure you want to exit?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_NO_OPTION) {
+                JOptionPane.showMessageDialog(null, "Program Terminated");
+                System.exit(0);
+            }
+        }
+        if (input.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, message + " cannot be empty"
+                ,"Invalid Input", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    static int checkQuantityInput() {
+       String quantityInput = "";
+       int quantity = 0;
+       boolean isInvalid = true;
+       while (isInvalid) {
+            do {
+                quantityInput = JOptionPane.showInputDialog("Enter Quantity:");
+                if (quantityInput.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                         "Quantity cannot be empty!",
+                         "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } while (quantityInput.trim().isEmpty());
+            try {
+                quantity = Integer.parseInt(quantityInput);
+                isInvalid = false;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                    "Invalid Quantity!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+       }
+       
+       return quantity;
     }
 }
